@@ -50,7 +50,7 @@ uvicorn app.main:app --reload --env-file=app/.env
 2. **Testing**: I would have added more robust error handling, and covered more edge cases. Also, tested program more comprehensively by adding robust unit tests, integration test.
 3. **CI/CD**: I would have introduced linters, code formatters, CI checks and CD pipeline if I had more time. 
 4. **Logging**: Implement logging.
-5. **Database**: I would have implemented a PostgreSQL instead of sqlite.
+5. **Database**: I would have implemented a PostgreSQL instead of sqlite. Also, use Amazon S3 to store resume. 
 6. **Tools**: I would have leveraged Amazon SES and alike frameworks for email communication instead of relying on smtp protocol.  
 7. **Documentation**: Add more comprehensive documentation, including detailed descriptions of the configuration options and usage examples.
 
