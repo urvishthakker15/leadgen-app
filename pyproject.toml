@@ -1,0 +1,23 @@
+[tool.poetry]
+name = "leadgen-app"
+version = "0.1.0"
+description = "Lead generation and management system"
+authors = ["thakkerurvish"]
+readme = "README.md"
+
+[tool.poetry.dependencies]
+python = "^3.12"
+fastapi = "^0.115.3"
+sqlalchemy = "^2.0.36"
+validators = "^0.34.0"
+uvicorn = "^0.32.0"
+python-dotenv = "^1.0.1"
+aiosqlite = "^0.20.0"
+python-multipart = "^0.0.12"
+greenlet = "^3.1.1"
+aiosmtplib = "^3.0.2"
+
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
