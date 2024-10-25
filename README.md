@@ -6,8 +6,9 @@ This application is designed to handle lead creation, status updates, and retrie
 
 ## Assumptions
 
-1. **Email Client**: The program currenlty assumes the email client used in smtp is a gmail based client. 
-
+1. **Email Client**: The program currenlty assumes the email client used in smtp is a gmail based client.
+2. **PDF size restrictions**: The program assumes there is no file size limitation (In reality we would like to restrict that).
+3. **Scalability and deployment**: The current implementation is does not account for scalability and production deployment usecase in terms of optimising database queries, calls, etc.
 
 ## Instructions
 
@@ -43,31 +44,14 @@ SMTP_PASSWORD="app-password" (Create App password in gmail and enter here)
 uvicorn app.main:app --reload --env-file=app/.env 
 ```
 
-### Testing
-
-1. **Run Tests**:
-- Ensure JUnit 5 is in your classpath.
-- Run the tests using:
-```bash
-java -cp "out/production/illumio:out/test/illumio:lib/junit-platform-console-standalone-1.8.2.jar" org.junit.platform.console.ConsoleLauncher --scan-classpath
-```
-
-### Configuration
-
-Before running the program, ensure the following files are in the correct locations:
-- `src/protocol-numbers.csv`: CSV file containing protocol number mappings
-- `src/lookup.txt`: Lookup table for port and protocol to tag mapping
-- `src/flow_logs.txt`: Input flow logs to be processed
-
-The program will generate an `output.txt` file in the `src` directory with the results.
-
 ### What Would I Have Done With More Time
 
-1. **Enhanced Error Handling**: Implement additional error handling to manage invalid input formats, missing files, and other edge cases more gracefully.
-2. **Testing**: I would have added more robust error handling, and covered more edge cases. Also, tested program more comprehensively by testing all functionality (business logic).
-3. **Extended Log Format Support**: Implement support for additional log formats or versions if needed.
-3. **Optimization**: Optimize the performance of the parsing and processing logic to handle larger files more efficiently.
-4. **User Interface**: Develop a user interface (CLI or graphical) to make it easier to interact with the tool and visualize the results.
-5. **Documentation**: Add more comprehensive documentation, including detailed descriptions of the configuration options and usage examples.
+1. **Enhanced Error Handling**: Implement additional error handling to manage invalid input formats, missing files, and other edge cases more gracefully. Return as precise error as possible compared to very generic error being returned in case of any failure or input issue. 
+2. **Testing**: I would have added more robust error handling, and covered more edge cases. Also, tested program more comprehensively by adding robust unit tests, integration test.
+3. **CI/CD**: I would have introduced linters, code formatters, CI checks and CD pipeline if I had more time. 
+4. **Logging**: Implement logging.
+5. **Database**: I would have implemented a PostgreSQL instead of sqlite.
+6. **Tools**: I would have leveraged Amazon SES and alike frameworks for email communication instead of relying on smtp protocol.  
+7. **Documentation**: Add more comprehensive documentation, including detailed descriptions of the configuration options and usage examples.
 
 
