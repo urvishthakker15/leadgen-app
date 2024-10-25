@@ -1,0 +1,58 @@
+**Overview**:
+This document outlines the design choices made in developing the Lead Management Application. The application supports creating leads, updating lead statuses, and retrieving all leads. The focus is on maintainability, scalability, and efficient handling of asynchronous operations.
+
+**Technology Stack**:
+- FastAPI: Chosen for its high performance, modern features, and support for asynchronous programming.
+- Asynchronous SQLite (sqlite+aiosqlite): Enables non-blocking database operations, suitable for applications requiring concurrency without the overhead of a full-fledged database server.
+- SQLAlchemy ORM with Async Support: Provides an abstraction over the database layer with asynchronous capabilities.
+- Pydantic: Used for data validation and serialization, ensuring data integrity.
+- aiosmtplib: Allows asynchronous sending of emails, preventing blocking during I/O operations.
+
+**Asynchronous Design**:
+Async Endpoints: All FastAPI endpoints are asynchronous, allowing the server to handle multiple requests concurrently.
+Async Database Sessions: Uses AsyncSession from SQLAlchemy for non-blocking database interactions.
+Asynchronous Email Sending: Emails are sent using aiosmtplib to avoid blocking the event loop.
+Rationale: Asynchronous programming improves performance and scalability, especially when dealing with I/O-bound operations like database queries and network requests.
+
+**Database Layer**:
+ORM Models: Defined using SQLAlchemy's declarative base, providing a clear mapping between Python classes and database tables.
+Asynchronous Engine: Configured with create_async_engine to support async database operations.
+Session Management: get_db() dependency provides an async session for each request, ensuring thread safety and efficient resource utilization.
+Rationale: Using an ORM abstracts the underlying database operations, making the codebase cleaner and database-agnostic.
+
+**API Endpoints**:
+1. Create Lead (POST /lead)
+Protected Endpoint: Requires X-API-Key header for authentication.
+Functionality:
+- Accepts form data and a file upload.
+- Saves the resume to the resumes/ directory with a unique filename.
+- Creates a new lead in the database.
+- Sends confirmation emails asynchronously.
+
+2. Get All Leads (GET /leads)
+Protected Endpoint: Requires X-API-Key header for authentication.
+Functionality: Retrieves all leads from the database.
+Rationale: Protecting sensitive data ensures that only authorized users (attorneys) can access lead information.
+
+3. Update Lead Status (PUT /leads/{lead_id})
+Protected Endpoint: Requires X-API-Key header.
+Functionality: Updates the status of a lead to REACHED_OUT or PENDING.
+Rationale: Allows attorneys to manage lead statuses securely.
+
+Data Validation
+Pydantic Schemas: Used for input validation and serialization of responses.
+Custom Validators: Implemented where necessary to enforce business rules.
+Rationale: Ensures data integrity and provides clear error messages to the client.
+
+Email Service
+Asynchronous Emails: Sending emails asynchronously prevents the application from waiting on external SMTP servers.
+Email Notifications: Both the prospect and the attorney receive emails upon lead creation.
+Rationale: Improves application responsiveness and provides immediate feedback to users.
+
+Authentication
+API Key Dependency: Custom dependency checks for a valid X-API-Key header on protected endpoints.
+Environment Variables: Sensitive information like API keys is loaded from environment variables.
+Rationale: Simplifies authentication for internal use while keeping credentials secure.
+
+Conclusion
+The application's design focuses on asynchronous processing, modular architecture, and security best practices to create a robust and maintainable system. By making these design choices, we ensure that the application is efficient, secure, and scalable for future enhancements.
